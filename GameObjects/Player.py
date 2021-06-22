@@ -23,10 +23,10 @@ class Player(Creature):
         elif side == "down":
             self.position.x += 1
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], True, "player", self))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], True, "player", self, world))
         self.position.z = len(new_world_pos) - 1
 
     def spawn(self, world):
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], True, "player", self))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], True, "player", self, world))
         self.position.z = len(new_world_pos) - 1
