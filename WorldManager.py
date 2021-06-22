@@ -7,8 +7,8 @@ from Position import Position
 class WorldManager:
     worlds = []
 
-    def generate_world(self, width, height):
-        world = World(width, height)
+    def generate_main_world(self, width, height):
+        world = World(0, width, height, True, "Main")
         for i in range(0, height):
             newColumn = []
             for j in range(0, width):
@@ -17,3 +17,9 @@ class WorldManager:
             world.mapObjects.append(newColumn)
         self.worlds.append(world)
         return world
+
+    def get_world_by_id(self, world_id):
+        for item in self.worlds:
+            if item.world_id == world_id:
+                return item
+        return None
