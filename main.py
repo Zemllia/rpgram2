@@ -13,9 +13,15 @@ world_manager = WorldManager()
 players = []
 
 
-@app.route('/render_map')
+@app.route('/spawn_player')
+def spawn_player():
+    player_name = request.args.get("id")
+    return 'Hello World!'
+
+
+@app.route('/render_player')
 def render_map():
-    print(request.args)
+    print(request.args.get("id"))
     return 'Hello World!'
 
 
