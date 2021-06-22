@@ -1,6 +1,7 @@
 from flask import Flask, request
 
 from GameObjects.Player import Player
+from PlayerManager import PlayerManager
 from Position import Position
 from Renderer import Renderer
 from WorldManager import WorldManager
@@ -9,6 +10,7 @@ app = Flask(__name__)
 
 renderer = Renderer()
 world_manager = WorldManager()
+player_manager = PlayerManager()
 
 players = []
 
@@ -26,20 +28,22 @@ def spawn_player():
     world_id = request.args.get("world_id")
     world = world_manager.get_world_by_id(int(world_id))
     player_name = request.args.get("name")
-    player = Player(str(player_name), 1, 1, 100, Position(0, 0, 0))
-    player.spawn(world)
+    player = player_manager.create_or_load_player(player_name, world)
     return {"status": "success", "message": "Player successfully created"}
 
 
 @app.route('/render_player')
 def render_map():
-    print(request.args.get("id"))
-    return 'Hello World!'
+    player_name = request.args.get("name")
+    player = player_manager.get_player_by_name(player_name)
+    world = world_manager.get_world_by_id(int(0))
+    result = renderer.render_for_player(player, world)
+    return result
 
 
 def start():
     new_world = world_manager.generate_main_world(10, 10)
-    player = Player("Zemlia", 1, 1, 100, Position(0, 0, 0))
+    player = Player("Zemlia", 1, 1, 100, Position(0, 0, 0), 5)
     player.spawn(new_world)
     renderer_result = Renderer().render_by_symbols(new_world)
     print(renderer_result)
