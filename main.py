@@ -11,6 +11,7 @@ from Renderer import Renderer
 app = Flask(__name__)
 
 worlds = []
+players = []
 
 
 @app.route('/')
