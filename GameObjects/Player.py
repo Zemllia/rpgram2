@@ -4,14 +4,16 @@ from GameObjects.WorldObject import WorldObject
 
 class Player(Creature):
     nickname = "Player"
+    player_id = 0
 
-    def __init__(self, nickname, level, xp, hp, position, fov):
+    def __init__(self, player_id, nickname, level, xp, hp, position, fov):
         self.nickname = nickname
         self.level = level
         self.xp = xp
         self.position = position
         self.hp = hp
         self.fov = fov
+        self.id = player_id
 
     def move(self, world, side):
         world.mapObjects[self.position.x][self.position.y].pop(self.position.z)
