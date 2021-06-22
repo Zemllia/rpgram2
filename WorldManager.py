@@ -1,3 +1,4 @@
+from GameObjects.MapObjects.Grass import Grass
 from GameObjects.MapObjects.Void import Void
 from GameObjects.World import World
 from GameObjects.WorldObject import WorldObject
@@ -13,7 +14,7 @@ class WorldManager:
             newColumn = []
             for j in range(0, width):
                 position = Position(i, j, 0)
-                newColumn.append([WorldObject(position, "void", "#", False, "void", Void(position), world)])
+                newColumn.append([WorldObject(position, "void", "\"", True, "grass", Grass(position), world)])
             world.mapObjects.append(newColumn)
         self.worlds.append(world)
         return world

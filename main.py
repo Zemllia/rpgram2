@@ -47,8 +47,8 @@ def move_player():
     move_side = request.args.get("move_side")
     player = player_manager.get_player_by_id(int(cur_player_id))
     world = world_manager.get_world_by_id(int(0))
-    player.move(world, move_side)
-    return {"status": "success", "message": {"new_position": {"x": player.postition.x, "y": player.postition.y, "z": player.postition.z}}}
+    result = player.move(world, move_side)
+    return {"status": "success", "message": result}
 
 
 def start():
