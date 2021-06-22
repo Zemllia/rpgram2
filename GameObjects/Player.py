@@ -37,11 +37,11 @@ class Player(Creature):
                     "cause": "end_of_map"}
         self.position = new_pos
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], False, "player", self, world))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False, "player", self, world))
         self.position.z = len(new_world_pos) - 1
         return {"is_moved": True, "position": {"x": self.position.x, "y": self.position.y, "z": self.position.z}}
 
     def spawn(self, world):
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0], False, "player", self, world))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False, "player", self, world))
         self.position.z = len(new_world_pos) - 1

@@ -4,7 +4,7 @@ class Renderer:
         world_str = ""
         for item in world.mapObjects:
             for item1 in item:
-                world_str += item1[len(item1) - 1].sign + "  "
+                world_str += item1[len(item1) - 1].sign
             world_str += "\n"
         return world_str
 
@@ -22,6 +22,6 @@ class Renderer:
                     world_str += "0  "
                 else:
                     world_str += world.mapObjects[player_pos.x + i][player_pos.y + j][
-                                     len(world.mapObjects[player_pos.x + i][player_pos.y + j]) - 1].sign + "  "
+                                     len(world.mapObjects[player_pos.x + i][player_pos.y + j]) - 1].sign
             world_str += "\n"
         return world_str
