@@ -11,7 +11,7 @@ class PlayerManager:
         for item in self.players:
             if item.player_id > max_id:
                 max_id = item.player_id
-        player = Player(max_id + 1, name, 1, 1, 100, Position(0, 0, 0), 5)
+        player = Player(max_id + 1, name, 1, 1, 100, Position(1, 2, 0), 3)
         player.spawn(world)
         self.players.append(player)
         return player
