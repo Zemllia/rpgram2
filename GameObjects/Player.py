@@ -14,10 +14,9 @@ class Player(Creature):
         self.position = position
         self.hp = hp
         self.fov = fov
-        self.id = player_id
+        self.player_id = player_id
 
     def move(self, world, side):
-        world.mapObjects[self.position.x][self.position.y].pop(self.position.z)
         new_pos = Position(self.position.x, self.position.y, self.position.z)
         if side == "left":
             new_pos.y -= 1
@@ -28,20 +27,24 @@ class Player(Creature):
         elif side == "down":
             new_pos.x += 1
 
-        if not world.mapObjects[self.position.x][self.position.y][len(world.mapObjects[self.position.x][self.position.y]) - 1].is_walkable:
+        if (new_pos.x < 0) or (new_pos.y < 0) or (new_pos.x > world.height - 1) or (new_pos.y > world.width - 1):
+            return {"is_moved": False, "position": {"x": self.position.x, "y": self.position.y, "z": self.position.z},
+                    "cause": "end_of_map"}
+
+        if not world.mapObjects[new_pos.x][new_pos.y][len(world.mapObjects[new_pos.x][new_pos.y]) - 1].is_walkable:
             return {"is_moved": False, "position": {"x": self.position.x, "y": self.position.y, "z": self.position.z},
                     "cause": "not_walkable"}
 
-        if (new_pos.x < 0) or (new_pos.y < 0) or (new_pos.x > world.width) or (new_pos.y > world.height):
-            return {"is_moved": False, "position": {"x": self.position.x, "y": self.position.y, "z": self.position.z},
-                    "cause": "end_of_map"}
+        world.mapObjects[self.position.x][self.position.y].pop(self.position.z)
         self.position = new_pos
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False, "player", self, world))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False, "player", self, world,
+                                         "/static/images/skull.png"))
         self.position.z = len(new_world_pos) - 1
         return {"is_moved": True, "position": {"x": self.position.x, "y": self.position.y, "z": self.position.z}}
 
     def spawn(self, world):
         new_world_pos = world.mapObjects[self.position.x][self.position.y]
-        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False, "player", self, world))
+        new_world_pos.append(WorldObject(self.position, "Player", self.nickname[0] + "  ", False,
+                                         "player", self, world, "/static/images/skull.png"))
         self.position.z = len(new_world_pos) - 1

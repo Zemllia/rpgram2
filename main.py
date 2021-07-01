@@ -1,5 +1,10 @@
+import json
+import time
+from threading import Thread
+
 from flask import Flask, request
 
+import Config
 from GameObjects.Player import Player
 from PlayerManager import PlayerManager
 from Position import Position
@@ -23,13 +28,26 @@ def get_worlds_info():
     return answer
 
 
-@app.route('/spawn_player')
+@app.route('/get_legend')
+def get_legend():
+    answer = {"status": "success", "message": world_manager.world_legend}
+    return answer
+
+
+@app.route('/auth_player', methods=['POST'])
 def spawn_player():
-    world_id = request.args.get("world_id")
+    request_data = json.loads(request.data)
+    world_id = request_data.get("world_id")
     world = world_manager.get_world_by_id(int(world_id))
-    player_name = request.args.get("name")
-    player = player_manager.create_or_load_player(player_name, world)
-    return {"status": "success", "message": {"player_id": player.player_id}}
+    player_name = request_data.get("name")
+    password = request_data.get("password")
+    player_auth_result = player_manager.create_or_load_player(player_name, password, world)
+    if player_auth_result.get("status") == "success":
+        player = player_auth_result.get("player")
+        return {"status": "success", "message": {"player_id": player.player_id}}
+    else:
+        error_message = player_auth_result.get("error")
+        return {"status": "error", "message": error_message}
 
 
 @app.route('/render_player')
@@ -45,6 +63,7 @@ def render_player():
 def move_player():
     cur_player_id = request.args.get("id")
     move_side = request.args.get("move_side")
+    print(request.args)
     player = player_manager.get_player_by_id(int(cur_player_id))
     world = world_manager.get_world_by_id(int(0))
     result = player.move(world, move_side)
@@ -52,18 +71,13 @@ def move_player():
 
 
 def start():
-    new_world = world_manager.generate_main_world(10, 10)
-    player = Player(-1, "Zemlia", 1, 1, 100, Position(0, 0, 0), 5)
-    player.spawn(new_world)
-    renderer_result = Renderer().render_by_symbols(new_world)
-    print(renderer_result)
-    player.move(new_world, "right")
-    renderer_result = Renderer().render_by_symbols(new_world)
-    print(renderer_result)
-    player.move(new_world, "down")
-    renderer_result = Renderer().render_by_symbols(new_world)
-    print(renderer_result)
-    app.run(debug=False)
+    world_manager.generate_main_world(10, 10)
+    app.run(debug=Config.DEBUG, host=Config.HOST, port=Config.PORT)
+
+
+def auto_save():
+    print("i'm alive")
+    time.sleep(30)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,5 @@
+PROTOCOL = "http://"
+DEBUG = False
+HOST = "192.168.0.5"
+PORT = 8000
+LEGEND_VERSION = 0.01

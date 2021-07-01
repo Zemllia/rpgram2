@@ -12,12 +12,11 @@ class Renderer:
         world_str = ""
         player_pos = player.position
         for i in range(player.fov * -1, player.fov + 1):
-            print(world.mapObjects[i])
             for j in range(player.fov * -1, player.fov + 1):
                 if (
                         (player_pos.x + i) < 0) or ((player_pos.y + j) < 0
                 ) or (
-                        (player_pos.x + i) > world.width or (player_pos.y + j) > world.height
+                        (player_pos.x + i) > world.width - 1 or (player_pos.y + j) > world.height - 1
                 ):
                     world_str += "0  "
                 else:
