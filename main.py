@@ -3,6 +3,7 @@ import time
 from threading import Thread
 
 from flask import Flask, request
+from flask_cors import CORS
 
 import Config
 from GameObjects.Player import Player
@@ -12,6 +13,7 @@ from Renderer import Renderer
 from WorldManager import WorldManager
 
 app = Flask(__name__)
+CORS(app)
 
 renderer = Renderer()
 world_manager = WorldManager()

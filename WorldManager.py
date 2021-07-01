@@ -71,7 +71,7 @@ class WorldManager:
     def get_from_legend_by_name(self, name):
         for item in self.world_legend.get("legend"):
             if item.get("name") == name:
-                return name
+                return item
         return None
 
     # def save(self):
