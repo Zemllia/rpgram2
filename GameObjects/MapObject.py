@@ -6,6 +6,8 @@ class MapObject:
 
     possible_actions = []
 
+    count = 1
+
     def action(self, action, player, world):
         if action not in self.possible_actions:
             return "action_not_supported"

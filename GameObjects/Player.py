@@ -1,4 +1,5 @@
 from GameObjects.Creature import Creature
+from GameObjects.Inventory import Inventory
 from GameObjects.WorldObject import WorldObject
 from Position import Position
 
@@ -7,6 +8,7 @@ class Player(Creature):
     nickname = "Player"
     player_id = 0
     current_world = None
+    inventory = Inventory()
 
     def __init__(self, player_id, nickname, level, xp, hp, position, fov):
         self.nickname = nickname
